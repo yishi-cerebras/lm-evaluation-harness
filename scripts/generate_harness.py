@@ -55,8 +55,14 @@ def generate_harness(path):
     # args are technically not required
     args = conf["model"].get("args")
     model_args = f"pretrained={model_path}"
+
+    if tokenizer in ("''", '""'):
+        tokenizer = None
     if tokenizer:
         model_args += "," + f"tokenizer={tokenizer}"
+
+    if args in ("''", '""'):
+        args = None
     if args:
         model_args += "," + args
 
