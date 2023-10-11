@@ -9,7 +9,6 @@ Homepage: https://github.com/yahoojapan/JGLUE
 """
 import os
 from lm_eval.base import BalancedMultipleChoiceTask, rf
-import os
 
 _CITATION = """
 @inproceedings{kurihara-etal-2022-jglue,
