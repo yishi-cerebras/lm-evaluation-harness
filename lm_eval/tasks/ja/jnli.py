@@ -33,18 +33,18 @@ class JNLIWithFintanPrompt(BalancedMultipleChoiceTask):
     prompt template is taken from [ChatGPT vs BERT: どちらが日本語をより理解できるのか?](https://fintan.jp/page/9126/)
     """
 
-    VERSION = 1.1
+    VERSION = 1.2
     PROMPT_VERSION = 0.2
     DATASET_PATH = "shunk031/JGLUE"
     DATASET_NAME = "JNLI"
     DESCRIPTION = (
-        "前提と仮説の関係をentailment、contradiction、neutralの中から回答してください。\n\n"
+        "前提と仮説の関係を含意、矛盾、中立の中から回答してください。\n\n"
         + "制約:\n"
-        + "- 前提から仮説が、論理的知識や常識的知識を用いて導出可能である場合はentailmentと出力\n"
-        + "- 前提と仮説が両立しえない場合はcontradictionと出力\n"
-        + "- そのいずれでもない場合はneutralと出力\n\n"
+        + "- 前提から仮説が、論理的知識や常識的知識を用いて導出可能である場合は含意と出力\n"
+        + "- 前提と仮説が両立しえない場合は矛盾と出力\n"
+        + "- そのいずれでもない場合は中立と出力\n\n"
     )
-    CHOICES = ["entailment", "contradiction", "neutral"]
+    CHOICES = ["含意", "矛盾", "中立"]
     SEP = "\n"
 
     def has_training_docs(self):
@@ -187,9 +187,9 @@ class JNLIWithLlama2(JNLIWithJAAlpacaPrompt):
         与えられた前提と仮説の関係を回答してください。
 
         出力は以下から選択してください：
-        entailment
-        contradiction
-        neutral
+        含意
+        矛盾
+        中立
 
         前提：{premise}
         仮説：{hypothesis} [/INST]
