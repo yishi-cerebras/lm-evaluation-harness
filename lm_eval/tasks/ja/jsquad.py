@@ -421,6 +421,17 @@ class JSQuADWithLlama2V12(JSQuADWithLlama2):
         return f"{self.INSTRUCTION}\n\n{input_text} [/INST] "
 
 
+class JSQuADWithLlama3V12(JSQuADWithLlama2V12):
+    PROMPT_VERSION = 0.7
+
+    FEWSHOT_SEP = "\n</s><s>[INST] "
+
+    def doc_to_text(self, doc):
+        # same as version==0.6 except the last space is removed
+        input_text = f"文脈：{doc['title']}\n{doc['context'].split('[SEP]')[-1].strip()}\n質問：{doc['question']}"
+        return f"{self.INSTRUCTION}\n\n{input_text} [/INST]"
+
+
 VERSIONS = [
     JSQuAD,
     JSQuADWithFintanPrompt,
@@ -433,6 +444,7 @@ VERSIONS = [
     JSQuADWithRinnaBilingualInstructionSFTV12,
     JSQuADWithLlama2,
     JSQuADWithLlama2V12,
+    JSQuADWithLlama3V12,
 ]
 
 

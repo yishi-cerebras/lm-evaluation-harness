@@ -220,6 +220,14 @@ class JNLIWithLlama2(JNLIWithJAAlpacaPrompt):
         input_text = f"前提：{doc['premise']}\n仮説：{doc['hypothesis']}"
         return f"{self.INSTRUCTION}\n\n{input_text} [/INST] "
 
+class JNLIWithLlama3(JNLIWithLlama2):
+    PROMPT_VERSION = 0.7
+
+    def doc_to_text(self, doc):
+        # same as version==0.6 except the last space is removed
+        input_text = f"前提：{doc['premise']}\n仮説：{doc['hypothesis']}"
+        return f"{self.INSTRUCTION}\n\n{input_text} [/INST]"
+
 
 VERSIONS = [
     JNLIWithFintanPrompt,
@@ -227,6 +235,7 @@ VERSIONS = [
     JNLIWithRinnaInstructionSFT,
     JNLIWithRinnaBilingualInstructionSFT,
     JNLIWithLlama2,
+    JNLIWithLlama3,
 ]
 
 

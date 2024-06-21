@@ -197,6 +197,15 @@ class MGSMWithLlama2(MGSMWithJAAlpacaPrompt):
         input_text = f"{doc['question'].replace('問題：','')}"
         return f"{self.INSTRUCTION}\n\n{input_text} [/INST] "
 
+class MGSMWithLlama3(MGSMWithLlama2):
+    PROMPT_VERSION = 0.7
+
+    FEWSHOT_SEP = "\n</s><s>[INST] "
+
+    def doc_to_text(self, doc):
+        # same as version==0.6 except the last space is removed
+        input_text = f"{doc['question'].replace('問題：','')}"
+        return f"{self.INSTRUCTION}\n\n{input_text} [/INST]"
 
 VERSIONS = [
     MGSM,
@@ -204,6 +213,7 @@ VERSIONS = [
     MGSMWithRinnaInstructionSFT,
     MGSMWithRinnaBilingualInstructionSFT,
     MGSMWithLlama2,
+    MGSMWithLlama3,
 ]
 
 

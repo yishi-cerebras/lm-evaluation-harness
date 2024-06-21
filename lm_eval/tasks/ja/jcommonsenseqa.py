@@ -276,6 +276,26 @@ class JCommonsenseQAWithLlama2(JCommonsenseQA):
         return f"{instruction_text}\n\n{input_text} [/INST] "
 
 
+class JCommonsenseQAWithLlama3(JCommonsenseQAWithLlama2):
+    PROMPT_VERSION = 0.7
+
+    def doc_to_target(self, doc):
+        return " "+doc["choices"][doc["gold"]]
+    
+    def construct_requests(self, doc, ctx):
+        lls = [
+            rf.loglikelihood(ctx, " {}".format(choice))[0] for choice in doc["choices"]
+        ]
+        return lls
+
+    def doc_to_text(self, doc):
+        # same as version==0.6 except the last space is removed
+        choices = "\n".join([f"- {choice}" for choice in doc["choices"]])
+        instruction_text = self.INSTRUCTION + f"出力は以下から選択してください：\n{choices}"
+        input_text = f"質問：{doc['goal']}"
+        return f"{instruction_text}\n\n{input_text} [/INST]"
+
+
 VERSIONS = [
     JCommonsenseQA,
     JCommonsenseQAWithFintanPrompt,
@@ -284,6 +304,7 @@ VERSIONS = [
     JCommonsenseQAWithRinnaInstructionSFT,
     JCommonsenseQAWithRinnaBilingualInstructionSFT,
     JCommonsenseQAWithLlama2,
+    JCommonsenseQAWithLlama3,
 ]
 
 
